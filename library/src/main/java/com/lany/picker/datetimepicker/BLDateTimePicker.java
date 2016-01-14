@@ -7,8 +7,12 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.TextView;
 
 import com.lany.picker.R;
 import com.lany.picker.datepicker.DatePicker;
@@ -16,11 +20,12 @@ import com.lany.picker.datepicker.DatePicker;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2016/1/14.
  */
-public class DateTimePickerDialog extends AlertDialog implements DialogInterface.OnClickListener,
+public class BLDateTimePicker extends DialogFragment implements View.OnClickListener,
         YmdhmPicker.OnDateChangedListener {
 
     private static final String YEAR = "year";
@@ -29,79 +34,100 @@ public class DateTimePickerDialog extends AlertDialog implements DialogInterface
     private static final String HOUR = "hour";
     private static final String MINUTE = "minute";
 
-    private final YmdhmPicker mPicker;
-    private final OnDateSetListener mCallBack;
-    private final Calendar mCalendar;
+    /**
+     * datetimepicker
+     */
+    private YmdhmPicker mPicker;
 
     /**
-     * @param context The context the dialog is to run in.
-     * @param callBack How the parent is notified that the date is set.
-     * @param initDate The initial dialog by Calendar.
+     * title View
      */
-    public DateTimePickerDialog(Context context,
-                            OnDateSetListener callBack,
-                            Calendar initDate) {
-        this(context, Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB ? R.style.Theme_Dialog_Alert : 0, callBack,
-                initDate.get(Calendar.YEAR),
-                initDate.get(Calendar.MONTH),
-                initDate.get(Calendar.DAY_OF_MONTH),
-                initDate.get(Calendar.HOUR_OF_DAY),
-                initDate.get(Calendar.MINUTE));
-    }
-    /**
-     * @param context The context the dialog is to run in.
-     * @param callBack How the parent is notified that the date is set.
-     * @param year The initial year of the dialog.
-     * @param monthOfYear The initial month of the dialog.
-     * @param dayOfMonth The initial day of the dialog.
-     */
-    public DateTimePickerDialog(Context context,
-                            OnDateSetListener callBack,
-                            int year,
-                            int monthOfYear,
-                            int dayOfMonth,
-                            int hourOfDay,
-                            int minuteOfHour) {
-        this(context, Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB ? R.style.Theme_Dialog_Alert : 0, callBack, year, monthOfYear, dayOfMonth, hourOfDay, minuteOfHour);
-    }
+    private TextView mTitle;
 
     /**
-     * @param context The context the dialog is to run in.
-     * @param theme the theme to apply to this dialog
-     * @param callBack How the parent is notified that the date is set.
-     * @param year The initial year of the dialog.
-     * @param monthOfYear The initial month of the dialog.
-     * @param dayOfMonth The initial day of the dialog.
+     * title line
      */
-    public DateTimePickerDialog(Context context,
-                            int theme,
-                            OnDateSetListener callBack,
-                            int year,
-                            int monthOfYear,
-                            int dayOfMonth,
-                            int hourOfDay,
-                            int minuteOfHour) {
-        super(context, theme);
+    private View mTitleSp;
 
-        mCallBack = callBack;
+    /**
+     * buttom line
+     */
+    private View mButtomSP;
+
+    private OnDateSetListener mCallBack;
+    private Calendar mCalendar;
+
+    protected View mainView;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if (mainView == null){
+            mainView = inflater.inflate(R.layout.date_time_picker_fragment, null);
+            mPicker = (YmdhmPicker) mainView.findViewById(R.id.datetimePicker);
+            mTitle = (TextView) mainView.findViewById(R.id.comsumer_title);
+            mainView.findViewById(R.id.btn_date_time_1).setOnClickListener(this);
+        }else {
+            if (mainView.getParent() != null) {
+                ((ViewGroup) mainView.getParent()).removeView(mainView);
+            }
+        }
+
         mCalendar = Calendar.getInstance();
 
-        Context themeContext = getContext();
-        setButton(BUTTON_POSITIVE, themeContext.getText(R.string.date_time_done), this);
-        setIcon(0);
-
-        LayoutInflater inflater =
-                (LayoutInflater) themeContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.date_time_picker_dialog, null);
-        setView(view);
-        mPicker = (YmdhmPicker) view.findViewById(R.id.datetimePicker);
-        mPicker.init(year, monthOfYear, dayOfMonth,hourOfDay, minuteOfHour, this);
-        mPicker.setDescendantFocusability(YmdhmPicker.FOCUS_BLOCK_DESCENDANTS);
-        updateTitle(year, monthOfYear, dayOfMonth, hourOfDay, minuteOfHour);
+        initView(savedInstanceState);
+        return mainView;
     }
 
-    public void onClick(DialogInterface dialog, int which) {
+    /**
+     * init
+     */
+    protected BLDateTimePicker initView(Bundle state) {
+        if (state == null) {//first
+            Bundle bundle = getArguments();
+            Date init = (Date) bundle.getSerializable("Date");
+            if (init == null) {
+                init = new Date();
+            }
+            Calendar initDate = Calendar.getInstance();
+            initDate.setTime(init);
+
+            mPicker.setUseHour(useHour);
+            mPicker.setUseMinute(useMinute);
+
+            initView(initDate.get(Calendar.YEAR),
+                    initDate.get(Calendar.MONTH),
+                    initDate.get(Calendar.DAY_OF_MONTH),
+                    initDate.get(Calendar.HOUR_OF_DAY),
+                    initDate.get(Calendar.MINUTE));
+
+
+        }else {//restore
+            onRestoreInstanceState(state);
+        }
+
+        return  this;
+    }
+
+    /**
+     * @param year The initial year of the dialog.
+     * @param monthOfYear The initial month of the dialog.
+     * @param dayOfMonth The initial day of the dialog.
+     */
+    protected BLDateTimePicker initView(
+                            int year,
+                            int monthOfYear,
+                            int dayOfMonth,
+                            int hourOfDay,
+                            int minuteOfHour) {
+        mPicker.init(year, monthOfYear, dayOfMonth, hourOfDay, minuteOfHour, this);
+        mPicker.setDescendantFocusability(YmdhmPicker.FOCUS_BLOCK_DESCENDANTS);
+        updateTitle(year, monthOfYear, dayOfMonth, hourOfDay, minuteOfHour);
+        return this;
+    }
+
+    public void onClick(View view) {
         tryNotifyDateSet();
+        dismissAllowingStateLoss();
     }
 
     /**
@@ -129,7 +155,7 @@ public class DateTimePickerDialog extends AlertDialog implements DialogInterface
      * @param minDate
      * @return
      */
-    public DateTimePickerDialog setMinDate(long minDate){
+    public BLDateTimePicker setMinDate(long minDate){
         mPicker.setMinDate(minDate);
         return this;
     }
@@ -139,7 +165,7 @@ public class DateTimePickerDialog extends AlertDialog implements DialogInterface
      * @param maxDate
      * @return
      */
-    public DateTimePickerDialog setMaxDate(long maxDate){
+    public BLDateTimePicker setMaxDate(long maxDate){
         mPicker.setMaxDate(maxDate);
         return this;
     }
@@ -149,7 +175,7 @@ public class DateTimePickerDialog extends AlertDialog implements DialogInterface
      * @param editable
      * @return
      */
-    public DateTimePickerDialog setEditable(boolean editable){
+    public BLDateTimePicker setEditable(boolean editable){
         if (editable){
             mPicker.setDescendantFocusability(YmdhmPicker.FOCUS_BEFORE_DESCENDANTS);
         }else {
@@ -159,52 +185,44 @@ public class DateTimePickerDialog extends AlertDialog implements DialogInterface
         return this;
     }
 
-    public DateTimePickerDialog setUseHour(boolean useHour){
-        mPicker.setUseHour(useHour);
+    private boolean useHour;
+    public BLDateTimePicker setUseHour(boolean useHour){
+        this.useHour = useHour;
         if (!useHour){
             setUseMinute(false);
-        }else {
-            updateWithDialog();
         }
+
         return this;
     }
 
-    public DateTimePickerDialog setUseMinute(boolean useMinute){
-        mPicker.setUseMinute(useMinute);
+    private boolean useMinute;
+    public BLDateTimePicker setUseMinute(boolean useMinute){
+        this.useMinute = useMinute;
         if (useMinute){
             setUseHour(true);
-        }else {
-            updateWithDialog();
         }
+
         return this;
     }
 
-    @Override
-    public void setCustomTitle(View customTitleView) {
-        super.setCustomTitle(customTitleView);
-        updateTitle = false;
-    }
-
-    public DateTimePickerDialog setSelectionDivider(Drawable selectionDivider) {
+    public BLDateTimePicker setSelectionDivider(Drawable selectionDivider) {
         mPicker.setSelectionDivider(selectionDivider);
         return this;
     }
 
-    public DateTimePickerDialog setSelectionDividerHeight(int selectionDividerHeight) {
+    public BLDateTimePicker setSelectionDividerHeight(int selectionDividerHeight) {
         mPicker.setSelectionDividerHeight(selectionDividerHeight);
         return this;
     }
 
     /**
-     * update the last data with Dialog
+     * set datachanged callback
+     * @param callBack
+     * @return
      */
-    protected void updateWithDialog(){
-        mPicker.updateSpinners();
-        updateTitle(mCalendar.get(Calendar.YEAR),
-                mCalendar.get(Calendar.MONTH),
-                mCalendar.get(Calendar.DAY_OF_MONTH),
-                mCalendar.get(Calendar.HOUR_OF_DAY),
-                mCalendar.get(Calendar.MINUTE));
+    public BLDateTimePicker setOnDateSetListener(OnDateSetListener callBack){
+        this.mCallBack = callBack;
+        return this;
     }
 
     private void tryNotifyDateSet() {
@@ -229,24 +247,22 @@ public class DateTimePickerDialog extends AlertDialog implements DialogInterface
             }
             DateFormat df = new SimpleDateFormat(sb.toString());
             String title = df.format(mCalendar.getTimeInMillis());
-            setTitle(title);
+            mTitle.setText(title);
         }
     }
 
     @Override
-    public Bundle onSaveInstanceState() {
-        Bundle state = super.onSaveInstanceState();
-        state.putInt(YEAR, mPicker.getYear());
-        state.putInt(MONTH, mPicker.getMonth());
-        state.putInt(DAY, mPicker.getDayOfMonth());
-        state.putInt(HOUR, mPicker.getHourOfDay());
-        state.putInt(MINUTE, mPicker.getMinuteOfHour());
-        return state;
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt(YEAR, mPicker.getYear());
+        savedInstanceState.putInt(MONTH, mPicker.getMonth());
+        savedInstanceState.putInt(DAY, mPicker.getDayOfMonth());
+        savedInstanceState.putInt(HOUR, mPicker.getHourOfDay());
+        savedInstanceState.putInt(MINUTE, mPicker.getMinuteOfHour());
     }
 
-    @Override
+
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
         int year = savedInstanceState.getInt(YEAR);
         int month = savedInstanceState.getInt(MONTH);
         int day = savedInstanceState.getInt(DAY);

@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lany.picker.datetimepicker.BLDateTimePicker;
 import com.lany.picker.datetimepicker.DateTimePickerDialog;
+import com.lany.picker.datetimepicker.OnDateSetListener;
 import com.lany.picker.datetimepicker.YmdhmPicker;
 
 import java.util.Calendar;
@@ -36,6 +38,18 @@ public class YmdhmPickerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new DateTimePickerDialog(YmdhmPickerActivity.this,
                         callBack, Calendar.getInstance()).setUseMinute(true).show();
+            }
+        });
+
+        findViewById(R.id.launch_fragment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Date", new Date());
+                BLDateTimePicker picker = new BLDateTimePicker().setUseMinute(true).setOnDateSetListener(callBack);
+                picker.setArguments(bundle);
+                picker.show(getFragmentManager(),"DateTimePicker");
+
             }
         });
 
@@ -79,7 +93,7 @@ public class YmdhmPickerActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private DateTimePickerDialog.OnDateSetListener callBack = new DateTimePickerDialog.OnDateSetListener() {
+    private OnDateSetListener callBack = new OnDateSetListener() {
         @Override
         public void onDateSet(YmdhmPicker view, int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour) {
             mYear = year;
