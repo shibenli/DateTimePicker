@@ -499,7 +499,7 @@ public class YmdhmPicker extends FrameLayout {
         }
     }
 
-    private void updateSpinners() {
+    protected void updateSpinners() {
 //        if (mCurrentDate.equals(mMinDate)) {
 //            mDaySpinner.setMinValue(mCurrentDate.get(Calendar.DAY_OF_MONTH));
 //            mDaySpinner.setMaxValue(mCurrentDate

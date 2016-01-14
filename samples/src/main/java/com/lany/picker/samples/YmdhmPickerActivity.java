@@ -1,13 +1,18 @@
 package com.lany.picker.samples;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.lany.picker.datetimepicker.DateTimePickerDialog;
 import com.lany.picker.datetimepicker.YmdhmPicker;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class YmdhmPickerActivity extends AppCompatActivity {
@@ -25,6 +30,14 @@ public class YmdhmPickerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ymdhm_picker);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         showText = (TextView) findViewById(R.id.lany_picker_show_text);
+
+        findViewById(R.id.launch_dialog).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DateTimePickerDialog(YmdhmPickerActivity.this,
+                        callBack, Calendar.getInstance()).setUseMinute(true).show();
+            }
+        });
 
         YmdhmPicker ymdhPicker = (YmdhmPicker) findViewById(R.id.ymdhPicker);
         ymdhPicker.setSelectionDivider(new ColorDrawable(0xff000000));
@@ -65,4 +78,16 @@ public class YmdhmPickerActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private DateTimePickerDialog.OnDateSetListener callBack = new DateTimePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(YmdhmPicker view, int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour) {
+            mYear = year;
+            mMonth = monthOfYear;
+            mDay = dayOfMonth;
+            mHour = hourOfDay;
+            mMinute = minuteOfHour;
+            updateDisplay();
+        }
+    };
 }

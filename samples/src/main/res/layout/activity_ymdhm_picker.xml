@@ -10,6 +10,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.lany.picker.samples.YmdhPickerActivity">
 
+    <Button
+        android:id="@+id/launch_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LAUNCH DIALOG"/>
+
     <TextView
         android:id="@+id/lany_picker_show_text"
         android:layout_width="wrap_content"

@@ -2,13 +2,6 @@
 <items version="2" >
 
     <item
-        jar="E:\github\DateTimePicker3\samples\build\intermediates\exploded-aar\DateTimePicker3\library\unspecified\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="0b286ab1f51fe96290d46e41706dc73d4ab14b66">
-        <dex dex="E:\github\DateTimePicker3\samples\build\intermediates\pre-dexed\debug\classes-f753340e03f49b26a0edb04a29a04db6bdf3d1cc.jar" />
-    </item>
-    <item
         jar="E:\AndroidWork\android-sdk-windows\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
         jumboMode="false"
         revision="23.0.1"
@@ -16,11 +9,11 @@
         <dex dex="E:\github\DateTimePicker3\samples\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-d26a17476ffd934631c1128b4c64db2668d77017.jar" />
     </item>
     <item
-        jar="E:\github\DateTimePicker3\samples\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jar="E:\github\DateTimePicker3\samples\build\intermediates\exploded-aar\DateTimePicker3\library\unspecified\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="E:\github\DateTimePicker3\samples\build\intermediates\pre-dexed\debug\classes-4189fa3e8850d7f097e890943cfb16e2209daadb.jar" />
+        sha1="6321dbefefce56329453b88c74fad13ad0a99289">
+        <dex dex="E:\github\DateTimePicker3\samples\build\intermediates\pre-dexed\debug\classes-f753340e03f49b26a0edb04a29a04db6bdf3d1cc.jar" />
     </item>
     <item
         jar="E:\github\DateTimePicker3\samples\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
@@ -35,6 +28,13 @@
         revision="23.0.1"
         sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
         <dex dex="E:\github\DateTimePicker3\samples\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-84a8405c7fa002466dfde1d0e3880f9f192e0147.jar" />
+    </item>
+    <item
+        jar="E:\github\DateTimePicker3\samples\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="E:\github\DateTimePicker3\samples\build\intermediates\pre-dexed\debug\classes-4189fa3e8850d7f097e890943cfb16e2209daadb.jar" />
     </item>
 
 </items>
