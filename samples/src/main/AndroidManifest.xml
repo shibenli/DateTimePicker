@@ -27,6 +27,8 @@
         </activity>
         <activity android:name=".YmdhPickerActivity" >
         </activity>
+        <activity android:name=".YmdhmPickerActivity" >
+        </activity>
     </application>
 
 </manifest>

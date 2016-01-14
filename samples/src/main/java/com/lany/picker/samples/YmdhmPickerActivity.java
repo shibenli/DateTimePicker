@@ -6,37 +6,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.lany.picker.datetimepicker.YmdhPicker;
+import com.lany.picker.datetimepicker.YmdhmPicker;
 
 import java.util.Date;
 
-public class YmdhPickerActivity extends AppCompatActivity {
+public class YmdhmPickerActivity extends AppCompatActivity {
     private TextView showText;
 
     private int mYear;
     private int mMonth;
     private int mDay;
     private int mHour;
+    private int mMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ymdh_picker);
+        setContentView(R.layout.activity_ymdhm_picker);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         showText = (TextView) findViewById(R.id.lany_picker_show_text);
 
-        YmdhPicker ymdhPicker = (YmdhPicker) findViewById(R.id.ymdhPicker);
+        YmdhmPicker ymdhPicker = (YmdhmPicker) findViewById(R.id.ymdhPicker);
         ymdhPicker.setSelectionDivider(new ColorDrawable(0xff000000));
         ymdhPicker.setSelectionDividerHeight(2);
+        ymdhPicker.setDescendantFocusability(YmdhmPicker.FOCUS_BLOCK_DESCENDANTS);
         ymdhPicker.setMaxDate(new Date().getTime());
-        ymdhPicker.setMinDate(new Date().getTime());
-        ymdhPicker.setOnDateChangedListener(new YmdhPicker.OnDateChangedListener() {
+        ymdhPicker.setMinDate(new Date().getTime()-1000*60*60*24*365);
+        ymdhPicker.setOnDateChangedListener(new YmdhmPicker.OnDateChangedListener() {
             @Override
-            public void onDateChanged(YmdhPicker view, int year, int monthOfYear, int dayOfMonth, int hourOfDay) {
+            public void onDateChanged(YmdhmPicker view, int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour) {
                 mYear = year;
                 mMonth = monthOfYear;
                 mDay = dayOfMonth;
                 mHour = hourOfDay;
+                mMinute = minuteOfHour;
                 updateDisplay();
             }
         });
@@ -47,7 +50,8 @@ public class YmdhPickerActivity extends AppCompatActivity {
                 .append(mYear).append("年")
                 .append(mMonth).append("月")
                 .append(mDay).append("日")
-                .append(mHour).append("时"));
+                .append(mHour).append("时")
+                .append(mMinute).append("分"));
     }
 
     @Override

@@ -43,5 +43,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, YmdhPickerActivity.class));
             }
         });
+        findViewById(R.id.ymdhmpicker_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, YmdhmPickerActivity.class));
+            }
+        });
     }
 }

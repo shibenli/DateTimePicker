@@ -1,4 +1,4 @@
-package com.lany.picker.ymdhpicker;
+package com.lany.picker.datetimepicker;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -424,27 +424,27 @@ public class YmdhPicker extends FrameLayout {
     }
 
     private void updateSpinners() {
-        if (mCurrentDate.equals(mMinDate)) {
-            mDaySpinner.setMinValue(mCurrentDate.get(Calendar.DAY_OF_MONTH));
-            mDaySpinner.setMaxValue(mCurrentDate
-                    .getActualMaximum(Calendar.DAY_OF_MONTH));
-            mDaySpinner.setWrapSelectorWheel(false);
-            mMonthSpinner.setDisplayedValues(null);
-            mMonthSpinner.setMinValue(mCurrentDate.get(Calendar.MONTH));
-            mMonthSpinner.setMaxValue(mCurrentDate
-                    .getActualMaximum(Calendar.MONTH));
-            mMonthSpinner.setWrapSelectorWheel(false);
-        } else if (mCurrentDate.equals(mMaxDate)) {
-            mDaySpinner.setMinValue(mCurrentDate
-                    .getActualMinimum(Calendar.DAY_OF_MONTH));
-            mDaySpinner.setMaxValue(mCurrentDate.get(Calendar.DAY_OF_MONTH));
-            mDaySpinner.setWrapSelectorWheel(false);
-            mMonthSpinner.setDisplayedValues(null);
-            mMonthSpinner.setMinValue(mCurrentDate
-                    .getActualMinimum(Calendar.MONTH));
-            mMonthSpinner.setMaxValue(mCurrentDate.get(Calendar.MONTH));
-            mMonthSpinner.setWrapSelectorWheel(false);
-        } else {
+//        if (mCurrentDate.equals(mMinDate)) {
+//            mDaySpinner.setMinValue(mCurrentDate.get(Calendar.DAY_OF_MONTH));
+//            mDaySpinner.setMaxValue(mCurrentDate
+//                    .getActualMaximum(Calendar.DAY_OF_MONTH));
+//            mDaySpinner.setWrapSelectorWheel(false);
+//            mMonthSpinner.setDisplayedValues(null);
+//            mMonthSpinner.setMinValue(mCurrentDate.get(Calendar.MONTH));
+//            mMonthSpinner.setMaxValue(mCurrentDate
+//                    .getActualMaximum(Calendar.MONTH));
+//            mMonthSpinner.setWrapSelectorWheel(false);
+//        } else if (mCurrentDate.equals(mMaxDate)) {
+//            mDaySpinner.setMinValue(mCurrentDate
+//                    .getActualMinimum(Calendar.DAY_OF_MONTH));
+//            mDaySpinner.setMaxValue(mCurrentDate.get(Calendar.DAY_OF_MONTH));
+//            mDaySpinner.setWrapSelectorWheel(false);
+//            mMonthSpinner.setDisplayedValues(null);
+//            mMonthSpinner.setMinValue(mCurrentDate
+//                    .getActualMinimum(Calendar.MONTH));
+//            mMonthSpinner.setMaxValue(mCurrentDate.get(Calendar.MONTH));
+//            mMonthSpinner.setWrapSelectorWheel(false);
+//        } else {
             mDaySpinner.setMinValue(1);
             mDaySpinner.setMaxValue(mCurrentDate
                     .getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -453,7 +453,7 @@ public class YmdhPicker extends FrameLayout {
             mMonthSpinner.setMinValue(0);
             mMonthSpinner.setMaxValue(11);
             mMonthSpinner.setWrapSelectorWheel(true);
-        }
+//        }
 
         // make sure the month names are a zero based array
         // with the months in the month spinner
@@ -462,8 +462,10 @@ public class YmdhPicker extends FrameLayout {
         mMonthSpinner.setDisplayedValues(displayedValues);
 
         // year spinner range does not change based on the current date
-        mYearSpinner.setMinValue(mMinDate.get(Calendar.YEAR));
-        mYearSpinner.setMaxValue(mMaxDate.get(Calendar.YEAR));
+//        mYearSpinner.setMinValue(mMinDate.get(Calendar.YEAR));
+//        mYearSpinner.setMaxValue(mMaxDate.get(Calendar.YEAR));
+        mYearSpinner.setMinValue(DEFAULT_START_YEAR);
+        mYearSpinner.setMaxValue(DEFAULT_END_YEAR);
         mYearSpinner.setWrapSelectorWheel(false);
 
         mHourSpinner.setMinValue(0);
@@ -488,7 +490,7 @@ public class YmdhPicker extends FrameLayout {
      * @return The selected month.
      */
     public int getMonth() {
-        return mCurrentDate.get(Calendar.MONTH);
+        return mCurrentDate.get(Calendar.MONTH) + 1;
     }
 
     /**
