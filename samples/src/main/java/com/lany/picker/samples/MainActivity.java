@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onDataSet(NumberPicker view, int index) {
                         Toast.makeText(view.getContext(), data[index], Toast.LENGTH_SHORT).show();
                     }
-                }).setDisplayedValues(data).setSelectionDivider(new ColorDrawable(0xffff0000))
-                .setSelectionDividerHeight(4).upData(current).show();
+                }).setSelectionDivider(new ColorDrawable(0xffff0000))
+                .setSelectionDividerHeight(4).setDisplayedValues(data).upData(current).show();
             }
         });
     }
