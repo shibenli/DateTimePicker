@@ -48,4 +48,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="年月日时分" />
+
+    <Button
+        android:id="@+id/datapicker_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="普通的数据选择器" />
 </LinearLayout>
