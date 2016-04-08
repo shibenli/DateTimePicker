@@ -53,8 +53,8 @@ public class DataPickerDialog extends AlertDialog implements DialogInterface.OnC
     }
 
     private void updateTitle() {
-        String[] displayedValues = mDataPicker.getDisplayedValues();
-        setTitle(displayedValues == null || displayedValues.length <= index ? "请选择" : displayedValues[index]);
+        Object[] displayedValues = mDataPicker.getDisplayedValues();
+        setTitle(displayedValues == null || displayedValues.length <= index ? "请选择" : displayedValues[index].toString());
     }
 
     public DataPickerDialog setDisplayedValues(String[] displayedValues) {

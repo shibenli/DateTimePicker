@@ -215,7 +215,7 @@ public class NumberPicker extends LinearLayout {
 	/**
 	 * The values to be displayed instead the indices.
 	 */
-	private String[] mDisplayedValues;
+	private Object[] mDisplayedValues;
 
 	/**
 	 * Lower value of the range of numbers allowed for the NumberPicker
@@ -1251,7 +1251,7 @@ public class NumberPicker extends LinearLayout {
 			final int valueCount = mDisplayedValues.length;
 			for (int i = 0; i < valueCount; i++) {
 				final float textWidth = mSelectorWheelPaint
-						.measureText(mDisplayedValues[i]);
+						.measureText(mDisplayedValues[i].toString());
 				if (textWidth > maxTextWidth) {
 					maxTextWidth = (int) textWidth;
 				}
@@ -1414,7 +1414,7 @@ public class NumberPicker extends LinearLayout {
 	 *
 	 * @return The displayed values.
 	 */
-	public String[] getDisplayedValues() {
+	public Object[] getDisplayedValues() {
 		return mDisplayedValues;
 	}
 
@@ -1846,7 +1846,7 @@ public class NumberPicker extends LinearLayout {
 		} else {
 			if (mDisplayedValues != null) {
 				int displayedValueIndex = selectorIndex - mMinValue;
-				scrollSelectorValue = mDisplayedValues[displayedValueIndex];
+				scrollSelectorValue = mDisplayedValues[displayedValueIndex].toString();
 			} else {
 				scrollSelectorValue = formatNumber(selectorIndex);
 			}
@@ -1886,7 +1886,7 @@ public class NumberPicker extends LinearLayout {
 		 * number.
 		 */
 		String text = (mDisplayedValues == null) ? formatNumber(mValue)
-				: mDisplayedValues[mValue - mMinValue];
+				: mDisplayedValues[mValue - mMinValue].toString();
 		if (!TextUtils.isEmpty(text)
 				&& !text.equals(mInputText.getText().toString())) {
 			mInputText.setText(text);
@@ -1984,7 +1984,7 @@ public class NumberPicker extends LinearLayout {
 			for (int i = 0; i < mDisplayedValues.length; i++) {
 				// Don't force the user to type in jan when ja will do
 				value = value.toLowerCase();
-				if (mDisplayedValues[i].toLowerCase().startsWith(value)) {
+				if (mDisplayedValues[i].toString().toLowerCase().startsWith(value)) {
 					return mMinValue + i;
 				}
 			}
@@ -2086,7 +2086,8 @@ public class NumberPicker extends LinearLayout {
 				String result = String.valueOf(dest.subSequence(0, dstart))
 						+ filtered + dest.subSequence(dend, dest.length());
 				String str = String.valueOf(result).toLowerCase();
-				for (String val : mDisplayedValues) {
+				for (Object val1 : mDisplayedValues) {
+					String val = val1.toString();
 					String valLowerCase = val.toLowerCase();
 					if (valLowerCase.startsWith(str)) {
 						postSetSelectionCommand(result.length(), val.length());
@@ -2766,7 +2767,7 @@ public class NumberPicker extends LinearLayout {
 			}
 			if (value >= mMinValue) {
 				return (mDisplayedValues == null) ? formatNumber(value)
-						: mDisplayedValues[value - mMinValue];
+						: mDisplayedValues[value - mMinValue].toString();
 			}
 			return null;
 		}
@@ -2778,7 +2779,7 @@ public class NumberPicker extends LinearLayout {
 			}
 			if (value <= mMaxValue) {
 				return (mDisplayedValues == null) ? formatNumber(value)
-						: mDisplayedValues[value - mMinValue];
+						: mDisplayedValues[value - mMinValue].toString();
 			}
 			return null;
 		}
