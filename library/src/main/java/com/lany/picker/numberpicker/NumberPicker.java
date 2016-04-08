@@ -1429,7 +1429,7 @@ public class NumberPicker extends LinearLayout {
 	 *            is equal to {@link #getMaxValue()} - {@link #getMinValue()} +
 	 *            1.
 	 */
-	public void setDisplayedValues(String[] displayedValues) {
+	public void setDisplayedValues(Object[] displayedValues) {
 		if (mDisplayedValues == displayedValues) {
 			return;
 		}
