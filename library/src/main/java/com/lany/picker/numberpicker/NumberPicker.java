@@ -1665,22 +1665,23 @@ public class NumberPicker extends LinearLayout {
 	 *            Whether to notify if the current value changed.
 	 */
 	private void setValueInternal(int current, boolean notifyChange) {
-		if (mValue == current) {
-			return;
+		if (mValue != current) {
+
+			// Wrap around the values if we go past the start or end
+			if (mWrapSelectorWheel) {
+				current = getWrappedSelectorIndex(current);
+			} else {
+				current = Math.max(current, mMinValue);
+				current = Math.min(current, mMaxValue);
+			}
+			int previous = mValue;
+			mValue = current;
+			if (notifyChange) {
+				notifyChange(previous, current);
+			}
 		}
-		// Wrap around the values if we go past the start or end
-		if (mWrapSelectorWheel) {
-			current = getWrappedSelectorIndex(current);
-		} else {
-			current = Math.max(current, mMinValue);
-			current = Math.min(current, mMaxValue);
-		}
-		int previous = mValue;
-		mValue = current;
+
 		updateInputTextView();
-		if (notifyChange) {
-			notifyChange(previous, current);
-		}
 		initializeSelectorWheelIndices();
 		invalidate();
 	}
