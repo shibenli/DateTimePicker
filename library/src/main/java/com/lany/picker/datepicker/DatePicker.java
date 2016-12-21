@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
@@ -71,8 +72,6 @@ public class DatePicker extends FrameLayout {
 	private Locale mCurrentLocale;
 
 	private OnDateChangedListener mOnDateChangedListener;
-
-	private String[] mShortMonths;
 
 	private final java.text.DateFormat mDateFormat = new SimpleDateFormat(
 			DATE_FORMAT);
@@ -231,7 +230,6 @@ public class DatePicker extends FrameLayout {
 		mMonthSpinner = (NumberPicker) findViewById(R.id.month);
 		mMonthSpinner.setMinValue(0);
 		mMonthSpinner.setMaxValue(mNumberOfMonths - 1);
-		mMonthSpinner.setDisplayedValues(mShortMonths);
 		mMonthSpinner.setOnLongPressUpdateInterval(200);
 		mMonthSpinner.setOnValueChangedListener(onChangeListener);
 		mMonthSpinnerInput = (EditText) mMonthSpinner
@@ -341,6 +339,24 @@ public class DatePicker extends FrameLayout {
 			updateCalendarView();
 		}
 		updateSpinners();
+	}
+
+	public void setUnit(String year, String month, String day){
+		mYearSpinner.setFormatter(new DateFormater(year));
+		mMonthSpinner.setFormatter(new DateFormater(month));
+		mDaySpinner.setFormatter(new DateFormater(day));
+
+		updateSpinners();
+		notifyDateChanged();
+	}
+
+	public void Formatter(NumberPicker.Formatter yearFormatter, NumberPicker.Formatter monthFormatter, NumberPicker.Formatter dayFormatter){
+		mYearSpinner.setFormatter(yearFormatter);
+		mMonthSpinner.setFormatter( monthFormatter);
+		mDaySpinner.setFormatter(dayFormatter);
+
+		updateSpinners();
+		notifyDateChanged();
 	}
 
 	/**
@@ -513,11 +529,6 @@ public class DatePicker extends FrameLayout {
 		mCurrentDate = getCalendarForLocale(mCurrentDate, locale);
 
 		mNumberOfMonths = mTempDate.getActualMaximum(Calendar.MONTH) + 1;
-		mShortMonths = new String[mNumberOfMonths];
-		for (int i = 0; i < mNumberOfMonths; i++) {
-			mShortMonths[i] = DateUtils.getMonthString(Calendar.JANUARY + i,
-					DateUtils.LENGTH_MEDIUM);
-		}
 	}
 
 	/**
@@ -697,12 +708,6 @@ public class DatePicker extends FrameLayout {
 			mMonthSpinner.setWrapSelectorWheel(true);
 		}
 
-		// make sure the month names are a zero based array
-		// with the months in the month spinner
-		String[] displayedValues = CVArrays.copyOfRange(mShortMonths,
-				mMonthSpinner.getMinValue(), mMonthSpinner.getMaxValue() + 1);
-		mMonthSpinner.setDisplayedValues(displayedValues);
-
 		// year spinner range does not change based on the current date
 		mYearSpinner.setMinValue(mMinDate.get(Calendar.YEAR));
 		mYearSpinner.setMaxValue(mMaxDate.get(Calendar.YEAR));
@@ -712,6 +717,13 @@ public class DatePicker extends FrameLayout {
 		mYearSpinner.setValue(mCurrentDate.get(Calendar.YEAR));
 		mMonthSpinner.setValue(mCurrentDate.get(Calendar.MONTH));
 		mDaySpinner.setValue(mCurrentDate.get(Calendar.DAY_OF_MONTH));
+	}
+
+	public DatePicker setEditable(boolean enable){
+		mYearSpinnerInput.setFocusable(enable);
+		mMonthSpinnerInput.setFocusable(enable);
+		mDaySpinnerInput.setFocusable(enable);
+		return this;
 	}
 
 	/**
@@ -879,5 +891,19 @@ public class DatePicker extends FrameLayout {
 				return new SavedState[size];
 			}
 		};
+	}
+
+	protected static class DateFormater implements NumberPicker.Formatter{
+
+		protected final String unit;
+
+		public DateFormater(String unit) {
+			this.unit = unit;
+		}
+
+		@Override
+		public String format(int value) {
+			return value + unit;
+		}
 	}
 }

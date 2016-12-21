@@ -28,7 +28,9 @@ public class DatePickerActivity extends AppCompatActivity {
         datePicker.setSelectionDivider(new ColorDrawable(0xffff0000));
         datePicker.setSelectionDividerHeight(4);
         datePicker.setCalendarViewShown(false);
-        //datePicker.setDayViewShown(false);
+        datePicker.setUnit("年", "月", "日");
+        datePicker.setDayViewShown(false);
+        datePicker.setEditable(false);
 
 
         findViewById(R.id.btnDialog).setOnClickListener(new View.OnClickListener() {
