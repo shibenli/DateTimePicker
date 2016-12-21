@@ -228,8 +228,8 @@ public class DatePicker extends FrameLayout {
 
 		// month
 		mMonthSpinner = (NumberPicker) findViewById(R.id.month);
-		mMonthSpinner.setMinValue(0);
-		mMonthSpinner.setMaxValue(mNumberOfMonths - 1);
+		mMonthSpinner.setMinValue(1);
+		mMonthSpinner.setMaxValue(mNumberOfMonths);
 		mMonthSpinner.setOnLongPressUpdateInterval(200);
 		mMonthSpinner.setOnValueChangedListener(onChangeListener);
 		mMonthSpinnerInput = (EditText) mMonthSpinner
@@ -683,9 +683,9 @@ public class DatePicker extends FrameLayout {
 					.getActualMaximum(Calendar.DAY_OF_MONTH));
 			mDaySpinner.setWrapSelectorWheel(false);
 			mMonthSpinner.setDisplayedValues(null);
-			mMonthSpinner.setMinValue(mCurrentDate.get(Calendar.MONTH));
+			mMonthSpinner.setMinValue(mCurrentDate.get(Calendar.MONTH) + 1);
 			mMonthSpinner.setMaxValue(mCurrentDate
-					.getActualMaximum(Calendar.MONTH));
+					.getActualMaximum(Calendar.MONTH) + 1);
 			mMonthSpinner.setWrapSelectorWheel(false);
 		} else if (mCurrentDate.equals(mMaxDate)) {
 			mDaySpinner.setMinValue(mCurrentDate
@@ -694,8 +694,8 @@ public class DatePicker extends FrameLayout {
 			mDaySpinner.setWrapSelectorWheel(false);
 			mMonthSpinner.setDisplayedValues(null);
 			mMonthSpinner.setMinValue(mCurrentDate
-					.getActualMinimum(Calendar.MONTH));
-			mMonthSpinner.setMaxValue(mCurrentDate.get(Calendar.MONTH));
+					.getActualMinimum(Calendar.MONTH) + 1);
+			mMonthSpinner.setMaxValue(mCurrentDate.get(Calendar.MONTH) + 1);
 			mMonthSpinner.setWrapSelectorWheel(false);
 		} else {
 			mDaySpinner.setMinValue(1);
@@ -703,8 +703,8 @@ public class DatePicker extends FrameLayout {
 					.getActualMaximum(Calendar.DAY_OF_MONTH));
 			mDaySpinner.setWrapSelectorWheel(true);
 			mMonthSpinner.setDisplayedValues(null);
-			mMonthSpinner.setMinValue(0);
-			mMonthSpinner.setMaxValue(11);
+			mMonthSpinner.setMinValue(1);
+			mMonthSpinner.setMaxValue(12);
 			mMonthSpinner.setWrapSelectorWheel(true);
 		}
 
