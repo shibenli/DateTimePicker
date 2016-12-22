@@ -803,7 +803,9 @@ public class NumberPicker extends LinearLayout {
 		switch (action) {
 		case MotionEvent.ACTION_DOWN: {
 			removeAllCallbacks();
-			mInputText.setVisibility(View.INVISIBLE);
+			if (mInputText.getVisibility() != GONE) {
+				mInputText.setVisibility(View.INVISIBLE);
+			}
 			mLastDownOrMoveEventY = mLastDownEventY = event.getY();
 			mLastDownEventTime = event.getEventTime();
 			mIngonreMoveEvents = false;
@@ -1199,7 +1201,7 @@ public class NumberPicker extends LinearLayout {
 	private void showSoftInput() {
 		InputMethodManager inputMethodManager = (InputMethodManager) getContext()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
-		if (inputMethodManager != null) {
+		if (inputMethodManager != null && mInputText.getVisibility() != GONE) {
 			if (mHasSelectorWheel) {
 				mInputText.setVisibility(View.VISIBLE);
 			}
@@ -1217,7 +1219,7 @@ public class NumberPicker extends LinearLayout {
 		if (inputMethodManager != null
 				&& inputMethodManager.isActive(mInputText)) {
 			inputMethodManager.hideSoftInputFromWindow(getWindowToken(), 0);
-			if (mHasSelectorWheel) {
+			if (mHasSelectorWheel && mInputText.getVisibility() != GONE) {
 				mInputText.setVisibility(View.INVISIBLE);
 			}
 		}
@@ -1694,7 +1696,7 @@ public class NumberPicker extends LinearLayout {
 	 *            True to increment, false to decrement.
 	 */
 	private void changeValueByOne(boolean increment) {
-		if (mHasSelectorWheel) {
+		if (mHasSelectorWheel && mInputText.getVisibility() != GONE) {
 			mInputText.setVisibility(View.INVISIBLE);
 			if (!moveToFinalScrollerPosition(mFlingScroller)) {
 				moveToFinalScrollerPosition(mAdjustScroller);

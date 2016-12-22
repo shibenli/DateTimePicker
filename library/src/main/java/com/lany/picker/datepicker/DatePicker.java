@@ -720,9 +720,11 @@ public class DatePicker extends FrameLayout {
 	}
 
 	public DatePicker setEditable(boolean enable){
+		int visibility = enable ? VISIBLE : GONE;
+		mYearSpinnerInput.setVisibility(visibility);
 		mYearSpinnerInput.setFocusable(enable);
-		mMonthSpinnerInput.setFocusable(enable);
-		mDaySpinnerInput.setFocusable(enable);
+		mMonthSpinnerInput.setVisibility(visibility);
+		mDaySpinnerInput.setVisibility(visibility);
 		return this;
 	}
 
