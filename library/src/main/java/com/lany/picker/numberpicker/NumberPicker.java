@@ -1719,6 +1719,8 @@ public class NumberPicker extends LinearLayout {
 		}
 	}
 
+	private static final int TEXT_OFFSET = 15;
+
 	private void initializeSelectorWheel() {
 		initializeSelectorWheelIndices();
 		int[] selectorIndices = mSelectorIndices;
@@ -1733,6 +1735,9 @@ public class NumberPicker extends LinearLayout {
 				+ mInputText.getTop();
 		mInitialScrollOffset = editTextTextPosition
 				- (mSelectorElementHeight * SELECTOR_MIDDLE_ITEM_INDEX);
+		if (mInputText.getVisibility() == GONE){
+			mInitialScrollOffset += TEXT_OFFSET;
+		}
 		mCurrentScrollOffset = mInitialScrollOffset;
 		updateInputTextView();
 	}
