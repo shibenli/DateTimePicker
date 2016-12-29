@@ -36,11 +36,12 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class DatePicker extends FrameLayout {
-	public final static Integer[] monthDisps = new Integer[12];
+	public final static Integer[] months = new Integer[12];
+	public final static Object[] monthDisps = new Object[12];
 
 	static {
 		for (int i = 0; i < 12; i++) {
-			monthDisps[i] = i + 1;
+			monthDisps[i] = months[i] = i + 1;
 		}
 	}
 
@@ -350,8 +351,14 @@ public class DatePicker extends FrameLayout {
 
 	public void setUnit(String year, String month, String day){
 		mYearSpinner.setFormatter(new DateFormater(year));
-		mMonthSpinner.setFormatter(new DateFormater(month));
+		DateFormater dateFormater = new DateFormater(month);
+		mMonthSpinner.setFormatter(dateFormater);
 		mDaySpinner.setFormatter(new DateFormater(day));
+
+		//update displayValue
+		for (int i = 0; i < 12; i++) {
+			monthDisps[i] = dateFormater.format(months[i]);
+		}
 
 		updateSpinners();
 		notifyDateChanged();
