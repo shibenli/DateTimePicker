@@ -36,6 +36,13 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class DatePicker extends FrameLayout {
+	public final static Integer[] monthDisps = new Integer[12];
+
+	static {
+		for (int i = 0; i < 12; i++) {
+			monthDisps[i] = i + 1;
+		}
+	}
 
 	private static final String LOG_TAG = DatePicker.class.getSimpleName();
 
@@ -682,29 +689,29 @@ public class DatePicker extends FrameLayout {
 			mDaySpinner.setMaxValue(mCurrentDate
 					.getActualMaximum(Calendar.DAY_OF_MONTH));
 			mDaySpinner.setWrapSelectorWheel(false);
-			mMonthSpinner.setDisplayedValues(null);
-			mMonthSpinner.setMinValue(mCurrentDate.get(Calendar.MONTH) + 1);
+			mMonthSpinner.setDisplayedValues(monthDisps);
+			mMonthSpinner.setMinValue(mCurrentDate.get(Calendar.MONTH));
 			mMonthSpinner.setMaxValue(mCurrentDate
-					.getActualMaximum(Calendar.MONTH) + 1);
+					.getActualMaximum(Calendar.MONTH));
 			mMonthSpinner.setWrapSelectorWheel(false);
 		} else if (mCurrentDate.equals(mMaxDate)) {
 			mDaySpinner.setMinValue(mCurrentDate
 					.getActualMinimum(Calendar.DAY_OF_MONTH));
 			mDaySpinner.setMaxValue(mCurrentDate.get(Calendar.DAY_OF_MONTH));
 			mDaySpinner.setWrapSelectorWheel(false);
-			mMonthSpinner.setDisplayedValues(null);
+			mMonthSpinner.setDisplayedValues(monthDisps);
 			mMonthSpinner.setMinValue(mCurrentDate
-					.getActualMinimum(Calendar.MONTH) + 1);
-			mMonthSpinner.setMaxValue(mCurrentDate.get(Calendar.MONTH) + 1);
+					.getActualMinimum(Calendar.MONTH));
+			mMonthSpinner.setMaxValue(mCurrentDate.get(Calendar.MONTH));
 			mMonthSpinner.setWrapSelectorWheel(false);
 		} else {
 			mDaySpinner.setMinValue(1);
 			mDaySpinner.setMaxValue(mCurrentDate
 					.getActualMaximum(Calendar.DAY_OF_MONTH));
 			mDaySpinner.setWrapSelectorWheel(true);
-			mMonthSpinner.setDisplayedValues(null);
-			mMonthSpinner.setMinValue(1);
-			mMonthSpinner.setMaxValue(12);
+			mMonthSpinner.setDisplayedValues(monthDisps);
+			mMonthSpinner.setMinValue(0);
+			mMonthSpinner.setMaxValue(11);
 			mMonthSpinner.setWrapSelectorWheel(true);
 		}
 
